@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct LocationPreviewView: View {
     @EnvironmentObject  private var vm : LocationViewModel
@@ -18,8 +19,12 @@ struct LocationPreviewView: View {
                 imageSection
             }
             VStack(alignment: .center, spacing: 8){
-                titleSection
-                nextButton
+                
+                HStack{
+                    
+                    titleSection
+                    closeButton
+                }
             }
         }
         .padding(20)
@@ -34,10 +39,10 @@ struct LocationPreviewView: View {
 extension LocationPreviewView{
     private var imageSection: some View{
         ZStack{
-            Image(location.imageName)
+            AnimatedImage(url: URL(string: location.imageUrl))
                 .resizable()
                 .scaledToFit()
-                .frame(width: 100, height: 100)
+                .frame(width: 50, height: 50)
                 .cornerRadius(10)
         }
         .padding(6)
@@ -56,14 +61,18 @@ extension LocationPreviewView{
         .frame(maxWidth: .infinity, alignment: .center)
     }
     
-    private var nextButton: some View{
+    private var closeButton: some View{
         Button{
-            vm.nextButtonPressed()
+            vm.previewLocation.toggle()
         }label: {
-            Text("Next")
+            Image(systemName: "xmark")
                 .font(.headline)
-                .frame(width: 125, height: 35)
+                .padding(8)
+                .foregroundColor(.primary)
+                .background(.thickMaterial)
+                .cornerRadius(10)
+                .shadow(radius: 4)
+                .padding()
         }
-        .buttonStyle(.bordered)
     }
 }

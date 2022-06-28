@@ -10,13 +10,16 @@ import MapKit
 
 struct LocationsView: View {
     @EnvironmentObject private var vm: LocationViewModel
+    var find: Bool = false
     var body: some View {
         ZStack{
             mapLayer
                 .ignoresSafeArea()
             
             VStack(spacing: 0){
-                locationsPreviewStack
+                if vm.previewLocation {
+                    locationsPreviewStack
+                }
                 Spacer()
                 HStack{
                     Spacer()
@@ -40,8 +43,8 @@ struct LocationsView: View {
             DetailView()
         }
         .onAppear{
-            vm.getData()
             vm.checkIfLocationServiceIsEnabled()
+            vm.getData()
         }
     }
 }
@@ -60,6 +63,7 @@ extension LocationsView{
                 LocationMapAnnotationView(name: location.imageName)
                     .shadow(radius: 10)
                     .onTapGesture{
+                        vm.previewLocation = true
                         vm.showNextLocation(location: location)
                     }
             }
