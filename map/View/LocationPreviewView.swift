@@ -21,7 +21,6 @@ struct LocationPreviewView: View {
             VStack(alignment: .center, spacing: 8){
                 
                 HStack{
-                    
                     titleSection
                     closeButton
                 }

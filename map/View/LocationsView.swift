@@ -19,6 +19,23 @@ struct LocationsView: View {
             VStack(spacing: 0){
                 if vm.previewLocation {
                     locationsPreviewStack
+                }else{
+                    Spacer()
+                        .frame(height: 135)
+                }
+                HStack{
+                    Spacer()
+                    Button {
+                        vm.checkIfLocationServiceIsEnabled()
+                    } label: {
+                        Image(systemName: "paperplane")
+                            .font(.headline)
+                            .padding(12)
+                            .foregroundColor(.gray)
+                            .background(.thickMaterial)
+                            .cornerRadius(10)
+                            .shadow(radius: 4)
+                    }
                 }
                 Spacer()
                 HStack{
@@ -38,6 +55,7 @@ struct LocationsView: View {
                     Spacer()
                 }
             }
+            
         }
         .sheet(isPresented: $vm.sheetLocation){
             DetailView()

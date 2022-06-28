@@ -28,7 +28,7 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
     // Show location detail sheet
     @Published var sheetLocation: Bool = false
     
-    //
+    // Show preview view on screen
     @Published var previewLocation: Bool = false
     
     //span the map
@@ -56,7 +56,9 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
             case .denied:
                 print("You have denied this app location permission. Go into setting to change it.")
             case .authorizedAlways, .authorizedWhenInUse:
-            mapRegion = MKCoordinateRegion(center: locationManager.location!.coordinate, span: mapSpan)
+            withAnimation(.easeOut){
+                mapRegion = MKCoordinateRegion(center: locationManager.location!.coordinate, span: mapSpan)
+            }
             @unknown default:
                 break;
         }
@@ -92,10 +94,10 @@ class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
                     let imageName = data["imageName"] as? String ?? ""
                     let imageUrl = data["imageUrl"] as? String ?? ""
                     let coordinate = data["coordinate"] as? GeoPoint
-                    print("\(document.documentID) => \(document.data())")
+//                    print("\(document.documentID) => \(document.data())")
                     self.locations.append(Location(imageName: imageName, imageUrl: imageUrl, trashType: trashType, coordinates: CLLocationCoordinate2D(latitude: coordinate?.latitude ?? 0, longitude: coordinate?.longitude ?? 0)))
                 }
-                self.mapLocation = self.locations.first!
+//                 self.mapLocation = self.locations.first!
             }
         }
     }
